@@ -8,10 +8,12 @@ module Tilia
     # Using the trait + interface allows you to add EventEmitter capabilities
     # without having to change your base-class.
     module EventEmitterTrait
-      # The list of listeners
+      # @!attribute [r] _listeners
+      #   @!visibility private
       #
-      # @return [Hash]
-      attr_accessor :listeners
+      #   The list of listeners
+      #
+      #   @return [Hash]
 
       # Subscribe to an event.
       #
@@ -160,7 +162,7 @@ module Tilia
         end
       end
 
-      # TODO: document
+      # Initializes the instance variables of the trait
       def initialize_event_emitter_trait
         @listeners = {}
       end

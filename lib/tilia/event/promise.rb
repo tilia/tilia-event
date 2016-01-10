@@ -14,26 +14,28 @@ module Tilia
       # The promise was rejected. The operation failed.
       REJECTED = 2
 
-      protected
-
-      # The current state of this promise.
+      # @!attribute [r] _state
+      #   @!visibility private
       #
-      # @return [Fixnum]
-      attr_accessor :state
-
-      # A list of subscribers. Subscribers are the callbacks that want us to let
-      # them know if the callback was fulfilled or rejected.
+      #   The current state of this promise.
       #
-      # @return [Array]
-      attr_accessor :subscribers
+      #   @return [Fixnum]
 
-      # The result of the promise.
+      # @!attribute [r] _subscribers
+      #   @!visibility private
       #
-      # If the promise was fulfilled, this will be the result value. If the
-      # promise was rejected, this is most commonly an exception.
-      attr_accessor :value
+      #   A list of subscribers. Subscribers are the callbacks that want us to let
+      #   them know if the callback was fulfilled or rejected.
+      #
+      #   @return [Array]
 
-      public
+      # @!attribute [r] _value
+      #   @!visibility private
+      #
+      #   The result of the promise.
+      #
+      #   If the promise was fulfilled, this will be the result value. If the
+      #   promise was rejected, this is most commonly an exception.
 
       # Creates the promise.
       #

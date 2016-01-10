@@ -7,7 +7,9 @@ module Tilia
       include EventEmitterInterface
       include EventEmitterTrait
 
-      # TODO: document
+      # Initializes the Event emitter
+      #
+      # Initializes the instance variables of the EventEmitterTrait
       def initialize
         initialize_event_emitter_trait
       end
