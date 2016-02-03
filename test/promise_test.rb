@@ -75,8 +75,8 @@ module Tilia
 
       def test_executor_success
         real_result = ''
-        _promise = (
-          Promise.new(->(success, _failing) { success.call('hi') })
+        Promise.new(
+          ->(success, _failing) { success.call('hi') }
         ).then(
           ->(result) { real_result = result }
         )
@@ -86,8 +86,8 @@ module Tilia
 
       def test_executor_fail
         real_result = ''
-        _promise = (
-          Promise.new(->(_success, failing) { failing.call('hi') })
+        Promise.new(
+          ->(_success, failing) { failing.call('hi') }
         ).then(
           ->(_result) { real_result = 'incorrect' },
           ->(reason) { real_result = reason }
@@ -113,7 +113,7 @@ module Tilia
         promise = Promise.new
         promise.error(
           lambda do |reason|
-            assert_equal('foo', reason)
+            assert_equal(:foo, reason)
             fail 'hi'
           end
         ).then(
@@ -122,7 +122,7 @@ module Tilia
         )
 
         assert_equal(0, ok)
-        promise.reject('foo')
+        promise.reject(:foo)
         assert_equal(1, ok)
       end
 
@@ -148,7 +148,7 @@ module Tilia
         final_value = 0
         Promise.all([promise1, promise2]).then(
           lambda do |_value|
-            final_value = 'foo'
+            final_value = :foo
             'test'
           end,
           ->(value) { final_value = value }

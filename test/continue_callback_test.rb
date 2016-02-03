@@ -11,13 +11,13 @@ module Tilia
           handler_counter += 1
         end
 
-        ee.on('foo', bla)
-        ee.on('foo', bla)
-        ee.on('foo', bla)
+        ee.on(:foo, bla)
+        ee.on(:foo, bla)
+        ee.on(:foo, bla)
 
         continue_counter = 0
         r = ee.emit(
-          'foo',
+          :foo,
           [],
           lambda do
             continue_counter += 1
@@ -38,13 +38,13 @@ module Tilia
           handler_counter += 1
         end
 
-        ee.on('foo', bla)
-        ee.on('foo', bla)
-        ee.on('foo', bla)
+        ee.on(:foo, bla)
+        ee.on(:foo, bla)
+        ee.on(:foo, bla)
 
         continue_counter = 0
         r = ee.emit(
-          'foo',
+          :foo,
           [],
           lambda do
             continue_counter += 1
@@ -66,13 +66,13 @@ module Tilia
           false
         end
 
-        ee.on('foo', bla)
-        ee.on('foo', bla)
-        ee.on('foo', bla)
+        ee.on(:foo, bla)
+        ee.on(:foo, bla)
+        ee.on(:foo, bla)
 
         continue_counter = 0
         r = ee.emit(
-          'foo',
+          :foo,
           [],
           lambda do
             continue_counter += 1
