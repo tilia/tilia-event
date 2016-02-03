@@ -14,29 +14,6 @@ module Tilia
       # The promise was rejected. The operation failed.
       REJECTED = 2
 
-      # @!attribute [r] _state
-      #   @!visibility private
-      #
-      #   The current state of this promise.
-      #
-      #   @return [Fixnum]
-
-      # @!attribute [r] _subscribers
-      #   @!visibility private
-      #
-      #   A list of subscribers. Subscribers are the callbacks that want us to let
-      #   them know if the callback was fulfilled or rejected.
-      #
-      #   @return [Array]
-
-      # @!attribute [r] _value
-      #   @!visibility private
-      #
-      #   The result of the promise.
-      #
-      #   If the promise was fulfilled, this will be the result value. If the
-      #   promise was rejected, this is most commonly an exception.
-
       # Creates the promise.
       #
       # The passed argument is the executor. The executor is automatically
@@ -45,7 +22,7 @@ module Tilia
       # Each are callbacks that map to self.fulfill and self.reject.
       # Using the executor is optional.
       #
-      # @param [Proc, Method] executor
+      # @param [#call, nil] executor
       # @return [void]
       def initialize(executor = nil)
         @state = PENDING
@@ -73,11 +50,11 @@ module Tilia
       # If either of the callbacks throw an exception, the returned promise will
       # be rejected and the exception will be passed back.
       #
-      # @param [Proc, Method] on_fulfilled
-      # @param [Proc, Method] on_rejected
+      # @param [#call, nil] on_fulfilled
+      # @param [#call, nil] on_rejected
       # @return [Promise]
       def then(on_fulfilled = nil, on_rejected = nil)
-        sub_promise = self.class.new
+        sub_promise = Promise.new
         case @state
         when PENDING
           @subscribers << [sub_promise, on_fulfilled, on_rejected]
@@ -94,7 +71,7 @@ module Tilia
       # I would have used the word 'catch', but it's a reserved word in PHP, so
       # we're not allowed to call our function that.
       #
-      # @param [Proc, Method] on_rejected
+      # @param [#call] on_rejected
       # @return [Promise]
       def error(on_rejected)
         self.then(nil, on_rejected)
@@ -171,13 +148,13 @@ module Tilia
       # rejected.
       #
       # @param [Promise] sub_promise
-      # @param [Proc, Method] call_back
+      # @param [#call, nil] call_back
       # @return [void]
       def invoke_callback(sub_promise, call_back = nil)
         if call_back.is_a?(Proc) || call_back.is_a?(Method)
           begin
             result = call_back.call(@value)
-            if result.is_a?(self.class)
+            if result.is_a?(Promise)
               result.then(sub_promise.method(:fulfill), sub_promise.method(:reject))
             else
               sub_promise.fulfill(result)
@@ -185,12 +162,10 @@ module Tilia
           rescue => e
             sub_promise.reject(e.to_s)
           end
+        elsif @state == FULFILLED
+          sub_promise.fulfill(@value)
         else
-          if @state == FULFILLED
-            sub_promise.fulfill(@value)
-          else
-            sub_promise.reject(@value)
-          end
+          sub_promise.reject(@value)
         end
       end
     end

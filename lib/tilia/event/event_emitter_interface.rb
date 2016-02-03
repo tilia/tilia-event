@@ -7,20 +7,20 @@ module Tilia
     module EventEmitterInterface
       # Subscribe to an event.
       #
-      # @param [String] _event_name
-      # @param [Proc, Method] _call_back
-      # @param [Fixnum] _priority
+      # @param event_name
+      # @param [#call] call_back
+      # @param [Fixnum] priority
       # @return [void]
-      def on(_event_name, _call_back, _priority = 100)
+      def on(event_name, call_back, priority = 100)
       end
 
       # Subscribe to an event exactly once.
       #
-      # @param [String] _event_name
-      # @param [Proc, Method] _call_back
-      # @param [Fixnum] _priority
+      # @param event_name
+      # @param [#call] call_back
+      # @param [Fixnum] priority
       # @return [void]
-      def once(_event_name, _call_back, _priority = 100)
+      def once(event_name, call_back, priority = 100)
       end
 
       # Emits an event.
@@ -43,11 +43,11 @@ module Tilia
       # Lastly, if there are 5 event handlers for an event. The continueCallback
       # will be called at most 4 times.
       #
-      # @param [String] _event_name
-      # @param [Array] _arguments
-      # @param [Proc, Method] _continue_call_back
+      # @param event_name
+      # @param [Array] arguments
+      # @param [#call, nil] continue_call_back
       # @return [Boolean]
-      def emit(_event_name, _arguments = [], _continue_call_back = nil)
+      def emit(event_name, arguments = [], continue_call_back = nil)
       end
 
       # Returns the list of listeners for an event.
@@ -55,9 +55,9 @@ module Tilia
       # The list is returned as an array, and the list of events are sorted by
       # their priority.
       #
-      # @param [String] _event_name
-      # @return [Array<Proc, Method>]
-      def listeners(_event_name)
+      # @param event_name
+      # @return [Array<#call>]
+      def listeners(event_name)
       end
 
       # Removes a specific listener from an event.
@@ -65,10 +65,10 @@ module Tilia
       # If the listener could not be found, this method will return false. If it
       # was removed it will return true.
       #
-      # @param [String] _event_name
-      # @param [Proc, Method] _listener
+      # @param event_name
+      # @param [#call] listener
       # @return [Boolean]
-      def remove_listener(_event_name, _listener)
+      def remove_listener(event_name, listener)
       end
 
       # Removes all listeners.
@@ -77,9 +77,9 @@ module Tilia
       # removed. If it is not specified, every listener for every event is
       # removed.
       #
-      # @param [String] _event_name
+      # @param event_name
       # @return [void]
-      def remove_all_listeners(_event_name = nil)
+      def remove_all_listeners(event_name = nil)
       end
     end
   end
