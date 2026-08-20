@@ -3,8 +3,8 @@ source 'https://rubygems.org'
 gemspec
 
 # Testing
-gem 'rake'
-gem 'minitest', '~> 5.8'
-gem 'simplecov', '~> 0.10'
-gem 'rubocop', '~> 0.36'
-gem 'yard', '~> 0.8'
+gem 'minitest', '~> 5.25'
+gem 'rake', '~> 13.0'
+gem 'rubocop', '~> 1.69'
+gem 'simplecov', '~> 0.22'
+gem 'yard', '~> 0.9'
